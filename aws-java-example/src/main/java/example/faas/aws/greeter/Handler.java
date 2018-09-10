@@ -7,11 +7,11 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 public class Handler implements RequestHandler<GreeterRequest, GreeterResponse> {
 
     @Override
-    public GreeterResponse handleRequest(final GreeterRequest input, final Context context) {
+    public GreeterResponse handleRequest(final GreeterRequest request, final Context context) {
         final LambdaLogger logger = context.getLogger();
         logger.log("function name: " + context.getFunctionName() + "\n");
-        logger.log("received firstName: " + input.getFirstName() + " and lastName: " + input.getLastName() + "\n");
+        logger.log("received firstName: " + request.getFirstName() + " and lastName: " + request.getLastName() + "\n");
 
-        return new GreeterResponse("Hello " + input.getFirstName() + " " + input.getLastName());
+        return new GreeterResponse("Hello " + request.getFirstName() + " " + request.getLastName());
     }
 }
