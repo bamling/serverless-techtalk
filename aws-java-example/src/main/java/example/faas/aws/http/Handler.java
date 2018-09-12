@@ -1,4 +1,4 @@
-package example.faas.aws.rest;
+package example.faas.aws.http;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;

@@ -1,4 +1,4 @@
-package example.faas.aws.rest;
+package com.example.faas.aws;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ public class Response {
     private final String message;
     private final Map<String, Object> input;
 
-    public Response(final String message, final Map<String, Object> input) {
+    public Response(String message, Map<String, Object> input) {
         this.message = message;
         this.input = input;
     }

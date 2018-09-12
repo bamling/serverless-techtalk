@@ -1,0 +1,17 @@
+service: aws-java-serverless-example
+
+provider:
+  name: aws
+  runtime: java8
+  stage: dev
+
+package:
+  artifact: target/${self:service}-${self:provider.stage}.jar
+
+functions:
+  hello:
+    handler: example.faas.aws.http.Handler
+    events:
+      - http:
+          path: /hello
+          method: get

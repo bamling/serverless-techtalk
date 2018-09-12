@@ -1,0 +1,66 @@
+service: notes-api
+
+custom:
+  notesTableName: notes-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: java8
+  stage: dev
+
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+    - "dynamodb:*"
+    Resource: "*"
+
+  environment:
+    NOTES_TABLE_NAME: ${self:custom.notesTableName}
+
+package:
+  artifact: target/${self:service}-${self:provider.stage}.jar
+
+functions:
+  createNote:
+    handler: com.example.faas.aws.CreateNoteHandler
+    events:
+      - http:
+          path: /notes
+          method: post
+
+  getNote:
+    handler: com.example.faas.aws.GetNoteHandler
+    events:
+      - http:
+          path: /notes/{id}
+          method: get
+
+  listNotes:
+    handler: com.example.faas.aws.ListNotesHandler
+    events:
+      - http:
+          path: /notes
+          method: get
+
+  deleteNote:
+    handler: com.example.faas.aws.DeleteNoteHandler
+    events:
+      - http:
+          path: /notes/{id}
+          method: delete
+
+resources:
+  Resources:
+    NotesDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.notesTableName}
+        AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
